@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { SpeciesModule } from './species/species.module';
 
 @Module({
   imports: [
@@ -13,6 +14,8 @@ import * as Joi from 'joi';
         APPLICATION_PORT: Joi.number().required(),
       }),
     }),
+
+    SpeciesModule,
   ],
 })
 export class AppModule {}
