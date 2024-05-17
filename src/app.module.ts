@@ -14,6 +14,7 @@ import { SpeciesModule } from './species/species.module';
         APPLICATION_PORT: Joi.number().required(),
 
         POKEAPI_BASE_URL: Joi.string().uri().required(),
+        FUNTRANSLATIONS_BASE_URL: Joi.string().uri().required(),
       }),
     }),
 

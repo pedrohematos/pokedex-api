@@ -1,4 +1,4 @@
-export interface PokemonSpeciesApiReturn {
+export interface PokemonSpeciesApiResponse {
   id: number;
   name: string;
   order: number;
