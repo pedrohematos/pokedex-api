@@ -5,8 +5,8 @@ import {
   ApiSecurity,
   ApiTags,
 } from '@nestjs/swagger';
-import { PokemonResponseDto } from './dto/responses/pokemon-response.dto';
-import { PokemonTranslatedResponseDto } from './dto/responses/pokemon-translated-response.dto';
+import { PokemonResponseDto } from './dtos/responses/pokemon-response.dto';
+import { PokemonTranslatedResponseDto } from './dtos/responses/pokemon-translated-response.dto';
 import { SpeciesService } from './species.service';
 
 @ApiTags('Species')

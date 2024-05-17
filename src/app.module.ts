@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import * as Joi from 'joi';
 import { ApiKeyGuard } from './guards/api-key.guard';
-import { SpeciesModule } from './species/species.module';
+import { SpeciesModule } from './modules/species/species.module';
 
 @Module({
   imports: [
