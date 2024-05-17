@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ThrowError } from 'src/utils/error-handler';
-import { removeControlCharacters } from 'src/utils/string-handler';
+import { normalizeTextFormatting } from 'src/utils/string-handler';
 import { PokemonResponseDto } from './dto/responses/pokemon-response.dto';
 import { PokemonTranslatedResponseDto } from './dto/responses/pokemon-translated-response.dto';
 import { TranslationTypeEnum } from './enums/translation-type.enum';
@@ -91,11 +91,11 @@ export class SpeciesService {
   }
 
   private getPokemonDescription(pokemon: PokemonSpeciesApiResponse): string {
-    const unprocessedDescription = pokemon?.flavor_text_entries?.find(
+    const description = pokemon?.flavor_text_entries?.find(
       (entry) => entry?.language?.name?.toLowerCase() === 'en',
     )?.flavor_text;
 
-    return removeControlCharacters(unprocessedDescription);
+    return normalizeTextFormatting(description);
   }
 
   private async translateText(
