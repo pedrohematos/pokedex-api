@@ -1,9 +1,10 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { removeControlCharacters } from 'src/utils/strings';
+import { ThrowError } from 'src/utils/error-handler';
+import { removeControlCharacters } from 'src/utils/string-handler';
 import { PokemonResponseDto } from './dto/responses/pokemon-response.dto';
 import { PokemonTranslatedResponseDto } from './dto/responses/pokemon-translated-response.dto';
 import { TranslationTypeEnum } from './enums/translation-type.enum';
@@ -32,27 +33,24 @@ export class SpeciesService {
   async findOneWithTranslation(
     name: string,
   ): Promise<PokemonTranslatedResponseDto> {
-    try {
-      const pokemon = await this.getPokemonInfo(name);
-      let translationType = TranslationTypeEnum.SHAKESPEARE;
+    const pokemon = await this.getPokemonInfo(name);
 
-      if (pokemon?.habitat?.toLowerCase() === 'cave' || pokemon.isLegendary) {
-        translationType = TranslationTypeEnum.YODA;
-      }
+    let translationType = TranslationTypeEnum.SHAKESPEARE;
 
-      const translatedDescription = await this.translateText(
-        pokemon.description,
-        translationType,
-      );
-
-      return {
-        ...pokemon,
-        description: translatedDescription,
-        translation: translationType,
-      };
-    } catch (error) {
-      throw new Error('Failed to fetch translated species information');
+    if (pokemon?.habitat?.toLowerCase() === 'cave' || pokemon.isLegendary) {
+      translationType = TranslationTypeEnum.YODA;
     }
+
+    const translatedDescription = await this.translateText(
+      pokemon.description,
+      translationType,
+    );
+
+    return {
+      ...pokemon,
+      description: translatedDescription,
+      translation: translationType,
+    };
   }
 
   private async getPokemonInfo(name: string): Promise<PokemonResponseDto> {
@@ -76,7 +74,19 @@ export class SpeciesService {
 
       return pokemon;
     } catch (error) {
-      throw new Error('Failed to fetch pokemon species information');
+      const errorStatus = error.response.status;
+      const errorData = error?.response?.data;
+
+      if (errorStatus === HttpStatus.NOT_FOUND) {
+        ThrowError(HttpStatus.NOT_FOUND, 'Pokemon not found.');
+      } else {
+        ThrowError(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          errorData
+            ? `Failed to communicate with external API - ${errorData?.toString()}`
+            : `Failed to communicate with external API`,
+        );
+      }
     }
   }
 
@@ -103,7 +113,14 @@ export class SpeciesService {
 
       return translationData?.contents?.translated;
     } catch (error) {
-      throw new Error('Failed to translate text');
+      const errorMessage = error?.response?.data?.error?.message;
+
+      ThrowError(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        errorMessage
+          ? `Failed to communicate with external API - ${errorMessage}`
+          : 'Failed to communicate with external API.',
+      );
     }
   }
 }
