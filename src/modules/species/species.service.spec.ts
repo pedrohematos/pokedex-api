@@ -9,7 +9,7 @@ import { TranslatedTextApiAxiosOkMock } from './mocks/text-translation-api.mock'
 import { SpeciesService } from './species.service';
 
 describe('SpeciesService', () => {
-  let service: SpeciesService;
+  let speciesService: SpeciesService;
   let httpService: HttpService;
 
   beforeEach(async () => {
@@ -32,7 +32,7 @@ describe('SpeciesService', () => {
       ],
     }).compile();
 
-    service = module.get<SpeciesService>(SpeciesService);
+    speciesService = module.get<SpeciesService>(SpeciesService);
     httpService = module.get<HttpService>(HttpService);
   });
 
@@ -41,7 +41,7 @@ describe('SpeciesService', () => {
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(speciesService).toBeDefined();
   });
 
   describe('findOne', () => {
@@ -52,7 +52,7 @@ describe('SpeciesService', () => {
         .spyOn(httpService, 'get')
         .mockReturnValueOnce(of(PokemonSpeciesApiAxiosOkMock));
 
-      const result = await service.findOne(pokemonData.name);
+      const result = await speciesService.findOne(pokemonData.name);
 
       expect(result.name).toEqual(pokemonData.name);
       expect(result.description).toEqual(
@@ -73,7 +73,7 @@ describe('SpeciesService', () => {
 
       const getNotFoundPokemon = async () => {
         try {
-          await service.findOne(pokemonName);
+          await speciesService.findOne(pokemonName);
         } catch (error) {
           expect(error).toBeInstanceOf(HttpException);
           expect(error.status).toEqual(HttpStatus.NOT_FOUND);
@@ -95,7 +95,7 @@ describe('SpeciesService', () => {
 
       const getPokemon = async () => {
         try {
-          await service.findOne(pokemonName);
+          await speciesService.findOne(pokemonName);
         } catch (error) {
           expect(error).toBeInstanceOf(HttpException);
           expect(error.status).toEqual(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -122,7 +122,9 @@ describe('SpeciesService', () => {
         .spyOn(httpService, 'post')
         .mockReturnValueOnce(of(TranslatedTextApiAxiosOkMock));
 
-      const result = await service.findOneWithTranslation(pokemonData.name);
+      const result = await speciesService.findOneWithTranslation(
+        pokemonData.name,
+      );
 
       expect(result.name).toEqual(pokemonData.name);
       expect(result.description).toEqual(
@@ -146,7 +148,9 @@ describe('SpeciesService', () => {
         .spyOn(httpService, 'post')
         .mockReturnValueOnce(of(TranslatedTextApiAxiosOkMock));
 
-      const result = await service.findOneWithTranslation(pokemonData.name);
+      const result = await speciesService.findOneWithTranslation(
+        pokemonData.name,
+      );
 
       expect(result.name).toEqual(pokemonData.name);
       expect(result.description).toEqual(
@@ -170,7 +174,9 @@ describe('SpeciesService', () => {
         .spyOn(httpService, 'post')
         .mockReturnValueOnce(of(TranslatedTextApiAxiosOkMock));
 
-      const result = await service.findOneWithTranslation(pokemonData.name);
+      const result = await speciesService.findOneWithTranslation(
+        pokemonData.name,
+      );
 
       expect(result.name).toEqual(pokemonData.name);
       expect(result.description).toEqual(
@@ -195,7 +201,9 @@ describe('SpeciesService', () => {
         .spyOn(httpService, 'post')
         .mockReturnValueOnce(of(TranslatedTextApiAxiosOkMock));
 
-      const result = await service.findOneWithTranslation(pokemonData.name);
+      const result = await speciesService.findOneWithTranslation(
+        pokemonData.name,
+      );
 
       expect(result.name).toEqual(pokemonData.name);
       expect(result.description).toEqual(
@@ -217,7 +225,7 @@ describe('SpeciesService', () => {
 
       const getNotFoundPokemon = async () => {
         try {
-          await service.findOneWithTranslation(pokemonName);
+          await speciesService.findOneWithTranslation(pokemonName);
         } catch (error) {
           expect(error).toBeInstanceOf(HttpException);
           expect(error.status).toEqual(HttpStatus.NOT_FOUND);
@@ -239,7 +247,7 @@ describe('SpeciesService', () => {
 
       const getPokemon = async () => {
         try {
-          await service.findOneWithTranslation(pokemonName);
+          await speciesService.findOneWithTranslation(pokemonName);
         } catch (error) {
           expect(error).toBeInstanceOf(HttpException);
           expect(error.status).toEqual(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -267,7 +275,7 @@ describe('SpeciesService', () => {
 
       const getPokemon = async () => {
         try {
-          await service.findOneWithTranslation(pokemonData.name);
+          await speciesService.findOneWithTranslation(pokemonData.name);
         } catch (error) {
           expect(error).toBeInstanceOf(HttpException);
           expect(error.status).toEqual(HttpStatus.INTERNAL_SERVER_ERROR);
