@@ -3,8 +3,8 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ThrowError } from 'src/utils/error-handler';
-import { normalizeTextFormatting } from 'src/utils/string-handler';
+import { ThrowError } from '../../utils/error-handler';
+import { normalizeTextFormatting } from '../../utils/string-handler';
 import { PokemonResponseDto } from './dtos/responses/pokemon-response.dto';
 import { PokemonTranslatedResponseDto } from './dtos/responses/pokemon-translated-response.dto';
 import { TranslationTypeEnum } from './enums/translation-type.enum';
@@ -78,7 +78,7 @@ export class SpeciesService {
       const errorData = error?.response?.data;
 
       if (errorStatus === HttpStatus.NOT_FOUND) {
-        ThrowError(HttpStatus.NOT_FOUND, 'Pokemon not found.');
+        ThrowError(HttpStatus.NOT_FOUND, 'Pokémon not found.');
       } else {
         ThrowError(
           HttpStatus.INTERNAL_SERVER_ERROR,

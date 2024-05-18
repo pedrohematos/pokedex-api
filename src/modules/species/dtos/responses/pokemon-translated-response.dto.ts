@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { TranslationTypeEnum } from 'src/modules/species/enums/translation-type.enum';
+import { TranslationTypeEnum } from '../../enums/translation-type.enum';
 
 export class PokemonTranslatedResponseDto {
   @ApiProperty({ description: 'The name of the Pokémon', example: 'ivysaur' })
