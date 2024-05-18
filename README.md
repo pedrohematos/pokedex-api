@@ -4,6 +4,8 @@
 
 The Pokedex API is an API for retrieving primary Pokémon information. It allows you to obtain detailed data about Pokémon species, including a translated description into specific styles like Yoda and Shakespeare.
 
+This application was built using [Node.js](https://nodejs.org/), [NestJS](https://nestjs.com/), and [TypeScript](https://www.typescriptlang.org/).
+
 ## Features
 
 - Retrieve information about a Pokémon species by name.
