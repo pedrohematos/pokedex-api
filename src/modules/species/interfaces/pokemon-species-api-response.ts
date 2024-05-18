@@ -25,6 +25,7 @@ export interface PokemonSpeciesApiResponse {
   form_descriptions: Description[];
   genera: Genus[];
   varieties: PokemonSpeciesVariety[];
+  pal_park_encounters?: PalParkEncounters[];
 }
 
 interface GrowthRate {
@@ -109,4 +110,13 @@ interface PokemonSpeciesVariety {
     name: string;
     url: string;
   };
+}
+
+interface PalParkEncounters {
+  area: {
+    name: string;
+    url: string;
+  };
+  base_score: number;
+  rate: number;
 }
