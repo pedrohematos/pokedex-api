@@ -22,8 +22,12 @@ export class SpeciesController {
   })
   @ApiOperation({
     summary: 'Retrieve Pokémon species information',
-    description:
-      'Retrieve detailed information about a specific Pokémon species by its name.',
+    description: `Retrieve detailed information about a specific Pokémon species by its name, including a treatment process to normalize the description text. The treatment process follows these rules:
+
+      - Page breaks are treated just like newlines.
+      - Soft hyphens followed by newlines vanish.
+      - Letter-hyphen-newline becomes letter-hyphen, to preserve real hyphenation.
+      - Any other newline becomes a space.`,
   })
   async getPokemon(@Param('name') name: string): Promise<PokemonResponseDto> {
     return this.speciesService.findOne(name);
@@ -38,7 +42,7 @@ export class SpeciesController {
   @ApiOperation({
     summary: 'Retrieve Pokémon species information with translated description',
     description:
-      "Retrieve detailed information about a specific Pokémon species by its name, including a translated description. If the Pokémon's habitat is a cave or if the Pokémon is legendary, the description will be translated using Yoda style. Otherwise, it will be translated using Shakespeare style.",
+      "Retrieve detailed information about a specific Pokémon species by its name, including a translated description. If the Pokémon's habitat is a cave or if the Pokémon is legendary, the description will be translated using Yoda style. Otherwise, it will be translated using Shakespeare style. Prior to translation, the description undergoes normalization as part of the GET /species/{name} endpoint.",
   })
   async getTranslatedPokemon(
     @Param('name') name: string,

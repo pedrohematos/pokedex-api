@@ -1,10 +1,13 @@
 {
   "name": "pokedex-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "API for retrieving primary Pokémon information",
+  "author": {
+    "name": "Pedro Matos",
+    "email": "pedrohematos@outlook.com"
+  },
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
