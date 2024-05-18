@@ -74,7 +74,7 @@ export class SpeciesService {
 
       return pokemon;
     } catch (error) {
-      const errorStatus = error.response.status;
+      const errorStatus = error?.response?.status;
       const errorData = error?.response?.data;
 
       if (errorStatus === HttpStatus.NOT_FOUND) {
@@ -83,8 +83,8 @@ export class SpeciesService {
         ThrowError(
           HttpStatus.INTERNAL_SERVER_ERROR,
           errorData
-            ? `Failed to communicate with external API - ${errorData?.toString()}`
-            : `Failed to communicate with external API`,
+            ? `Failed to communicate with external Pokémon API - ${errorData?.toString()}`
+            : `Failed to communicate with external Pokémon API`,
         );
       }
     }
@@ -113,14 +113,16 @@ export class SpeciesService {
 
       return translationData?.contents?.translated;
     } catch (error) {
-      const errorMessage = error?.response?.data?.error?.message;
+      const errorStatus = error.response.status;
+      const errorMessage = error?.response?.data?.error?.message
+        ? `Failed to communicate with external Translation API - ${error.response.data.error.message.toString()}`
+        : 'Failed to communicate with external Translation API.';
 
-      ThrowError(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        errorMessage
-          ? `Failed to communicate with external API - ${errorMessage}`
-          : 'Failed to communicate with external API.',
-      );
+      if (errorStatus === HttpStatus.TOO_MANY_REQUESTS) {
+        ThrowError(HttpStatus.TOO_MANY_REQUESTS, errorMessage);
+      }
+
+      ThrowError(HttpStatus.INTERNAL_SERVER_ERROR, errorMessage);
     }
   }
 }

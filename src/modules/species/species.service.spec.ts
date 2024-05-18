@@ -100,7 +100,7 @@ describe('SpeciesService', () => {
           expect(error).toBeInstanceOf(HttpException);
           expect(error.status).toEqual(HttpStatus.INTERNAL_SERVER_ERROR);
           expect(error.response.message[0]).toContain(
-            'Failed to communicate with external API',
+            'Failed to communicate with external Pokémon API',
           );
         }
       };
@@ -252,7 +252,35 @@ describe('SpeciesService', () => {
           expect(error).toBeInstanceOf(HttpException);
           expect(error.status).toEqual(HttpStatus.INTERNAL_SERVER_ERROR);
           expect(error.response.message[0]).toContain(
-            'Failed to communicate with external API',
+            'Failed to communicate with external Pokémon API',
+          );
+        }
+      };
+
+      await expect(getPokemon()).resolves.toBeUndefined();
+    });
+
+    it('should throw an error if too many requests are sent to the Translation API', async () => {
+      const pokemonData = PokemonSpeciesApiAxiosOkMock.data;
+
+      jest
+        .spyOn(httpService, 'get')
+        .mockReturnValueOnce(of(PokemonSpeciesApiAxiosOkMock));
+
+      jest.spyOn(httpService, 'post').mockReturnValueOnce(
+        throwError(() => ({
+          response: { status: HttpStatus.TOO_MANY_REQUESTS },
+        })),
+      );
+
+      const getPokemon = async () => {
+        try {
+          await speciesService.findOneWithTranslation(pokemonData.name);
+        } catch (error) {
+          expect(error).toBeInstanceOf(HttpException);
+          expect(error.status).toEqual(HttpStatus.TOO_MANY_REQUESTS);
+          expect(error.response.message[0]).toContain(
+            'Failed to communicate with external Translation API',
           );
         }
       };
@@ -280,7 +308,7 @@ describe('SpeciesService', () => {
           expect(error).toBeInstanceOf(HttpException);
           expect(error.status).toEqual(HttpStatus.INTERNAL_SERVER_ERROR);
           expect(error.response.message[0]).toContain(
-            'Failed to communicate with external API',
+            'Failed to communicate with external Translation API',
           );
         }
       };
