@@ -56,8 +56,9 @@ export class SpeciesController {
   @Get(':name/translated')
   @ApiOkResponse({
     type: PokemonTranslatedResponseDto,
-    description:
-      'Successfully retrieved translated Pokémon species information.',
+    description: `Successfully retrieved translated Pokémon species information.
+    
+    Note: Due to limitations in the FunTranslations API, this endpoint currently supports only 10 requests per hour. When the limit is reached, the API returns a 429 Too Many Requests error.`,
   })
   @ApiResponse({
     status: 400,
