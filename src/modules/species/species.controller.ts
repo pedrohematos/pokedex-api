@@ -2,9 +2,11 @@ import { Controller, Get, Param } from '@nestjs/common';
 import {
   ApiOkResponse,
   ApiOperation,
+  ApiResponse,
   ApiSecurity,
   ApiTags,
 } from '@nestjs/swagger';
+import { ErrorResponse } from '../../dtos/responses/error-response.dto';
 import { PokemonResponseDto } from './dtos/responses/pokemon-response.dto';
 import { PokemonTranslatedResponseDto } from './dtos/responses/pokemon-translated-response.dto';
 import { SpeciesService } from './species.service';
@@ -19,6 +21,21 @@ export class SpeciesController {
   @ApiOkResponse({
     type: PokemonResponseDto,
     description: 'Successfully retrieved Pokémon species information.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request',
+    type: ErrorResponse,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Not Found',
+    type: ErrorResponse,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error',
+    type: ErrorResponse,
   })
   @ApiOperation({
     summary: 'Retrieve Pokémon species information',
@@ -38,6 +55,21 @@ export class SpeciesController {
     type: PokemonTranslatedResponseDto,
     description:
       'Successfully retrieved translated Pokémon species information.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request',
+    type: ErrorResponse,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Not Found',
+    type: ErrorResponse,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error',
+    type: ErrorResponse,
   })
   @ApiOperation({
     summary: 'Retrieve Pokémon species information with translated description',
