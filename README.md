@@ -53,7 +53,7 @@ Create a `.env` file in the root of the project based on the provided `.env.exam
 
 - **NODE_ENV**: The application runtime environment (`development`, `homolog`, `production`).
 - **APPLICATION_PORT**: The port on which the application will run.
-- **API_KEY**: API key required to access the protected endpoints.
+- **API_KEY**: API key required to access the protected endpoints. It must be a valid UUID string.
 - **POKEAPI_BASE_URL**: Base URL of the PokeAPI.
 - **FUNTRANSLATIONS_BASE_URL**: Base URL of the FunTranslations API.
 
@@ -83,6 +83,18 @@ npm run build
 
 ```bash
 npm run start:prod
+```
+
+## Authentication 🔒
+
+The Pokedex API uses the `x-api-key` header for authentication. To access the API, include the `x-api-key` header with your request. The value of `x-api-key` is a UUID stored in the `API_KEY` variable found in the `.env` file.
+
+### Example Request
+
+Using `curl`:
+
+```bash
+curl -H "x-api-key: your-uuid-api-key" -X GET "http://localhost:3000/api/species/pikachu"
 ```
 
 ## API Documentation 📚
