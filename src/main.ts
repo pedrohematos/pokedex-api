@@ -16,10 +16,19 @@ async function bootstrap() {
       'pedrohematos@outlook.com',
     )
     .setTitle('Pokedex API')
-    .setDescription('API for retrieving primary Pokémon information')
+    .setDescription(
+      '## Description 📄\n\n' +
+        'The Pokedex API is an API for retrieving primary Pokémon information. It allows you to obtain detailed data about Pokémon species, including a translated description into specific styles like Yoda and Shakespeare.\n\n' +
+        'This application was built using [Node.js](https://nodejs.org/), [NestJS](https://nestjs.com/), and [TypeScript](https://www.typescriptlang.org/).\n\n' +
+        '## Dependencies 📦\n\n' +
+        'The Pokedex API depends on the following external APIs:\n\n' +
+        '- [PokeAPI](https://pokeapi.co/): Used to fetch Pokémon species information.\n' +
+        '- [FunTranslations API](https://api.funtranslations.com): Used to translate Pokémon descriptions into specific styles (Yoda and Shakespeare).',
+    )
     .setVersion('1.0')
     .addApiKey({ type: 'apiKey', name: 'x-api-key', in: 'header' }, 'x-api-key')
     .build();
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
