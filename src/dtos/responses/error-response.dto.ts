@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-class ErrorResponseDetail {
+export class ErrorResponse {
   @ApiProperty({
     description: 'The HTTP status code of the error response.',
   })
@@ -17,18 +17,4 @@ class ErrorResponseDetail {
     description: 'A short description of the error type.',
   })
   error: string;
-}
-
-export class ErrorResponse {
-  @ApiProperty({
-    description:
-      'Detailed information about the error, including status code, messages, and error type.',
-    type: ErrorResponseDetail,
-  })
-  erro: ErrorResponseDetail;
-
-  @ApiProperty({
-    description: 'The HTTP status code of the overall error response.',
-  })
-  statusCode: number;
 }
