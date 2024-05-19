@@ -56,9 +56,8 @@ export class SpeciesController {
   @Get(':name/translated')
   @ApiOkResponse({
     type: PokemonTranslatedResponseDto,
-    description: `Successfully retrieved translated Pokémon species information.
-    
-    Note: Due to limitations in the FunTranslations API, this endpoint currently supports only 10 requests per hour. When the limit is reached, the API returns a 429 Too Many Requests error.`,
+    description:
+      'Successfully retrieved translated Pokémon species information.',
   })
   @ApiResponse({
     status: 400,
@@ -77,8 +76,9 @@ export class SpeciesController {
   })
   @ApiOperation({
     summary: 'Retrieve Pokémon species information with translated description',
-    description:
-      "Retrieve detailed information about a specific Pokémon species by its name, including a translated description. If the Pokémon's habitat is a cave or if the Pokémon is legendary, the description will be translated using Yoda style. Otherwise, it will be translated using Shakespeare style. Prior to translation, the description undergoes normalization as part of the GET /species/{name} endpoint.",
+    description: `Retrieve detailed information about a specific Pokémon species by its name, including a translated description. If the Pokémon's habitat is a cave or if the Pokémon is legendary, the description will be translated using Yoda style. Otherwise, it will be translated using Shakespeare style. Prior to translation, the description undergoes normalization as part of the GET /species/{name} endpoint.
+    
+    Note: Due to limitations in the FunTranslations API, this endpoint currently supports only 10 requests per hour. When the limit is reached, the API returns a 429 Too Many Requests error.`,
   })
   async getTranslatedPokemon(
     @Param() { name }: PokemonNameParamDto,
