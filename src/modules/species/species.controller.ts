@@ -7,6 +7,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ErrorResponse } from '../../dtos/responses/error-response.dto';
+import { PokemonNameParamDto } from './dtos/requests/pokemon-name-param.dto';
 import { PokemonResponseDto } from './dtos/responses/pokemon-response.dto';
 import { PokemonTranslatedResponseDto } from './dtos/responses/pokemon-translated-response.dto';
 import { SpeciesService } from './species.service';
@@ -46,7 +47,9 @@ export class SpeciesController {
       - Letter-hyphen-newline becomes letter-hyphen, to preserve real hyphenation.
       - Any other newline becomes a space.`,
   })
-  async getPokemon(@Param('name') name: string): Promise<PokemonResponseDto> {
+  async getPokemon(
+    @Param() { name }: PokemonNameParamDto,
+  ): Promise<PokemonResponseDto> {
     return this.speciesService.findOne(name);
   }
 
@@ -77,7 +80,7 @@ export class SpeciesController {
       "Retrieve detailed information about a specific Pokémon species by its name, including a translated description. If the Pokémon's habitat is a cave or if the Pokémon is legendary, the description will be translated using Yoda style. Otherwise, it will be translated using Shakespeare style. Prior to translation, the description undergoes normalization as part of the GET /species/{name} endpoint.",
   })
   async getTranslatedPokemon(
-    @Param('name') name: string,
+    @Param() { name }: PokemonNameParamDto,
   ): Promise<PokemonTranslatedResponseDto> {
     return this.speciesService.findOneWithTranslation(name);
   }

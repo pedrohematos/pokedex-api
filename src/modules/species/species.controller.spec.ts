@@ -40,9 +40,9 @@ describe('SpeciesController', () => {
 
   describe('getPokemon', () => {
     it('should return Pokémon information', async () => {
-      const result = await speciesController.getPokemon(
-        PokemonResponseDtoMock.name,
-      );
+      const result = await speciesController.getPokemon({
+        name: PokemonResponseDtoMock.name,
+      });
 
       expect(result).toEqual(PokemonResponseDtoMock);
       expect(speciesService.findOne).toHaveBeenCalledTimes(1);
@@ -56,7 +56,7 @@ describe('SpeciesController', () => {
         );
 
       await expect(
-        speciesController.getPokemon('unknownpokemon'),
+        speciesController.getPokemon({ name: 'unknownpokemon' }),
       ).rejects.toThrow(
         new HttpException('Pokémon not found.', HttpStatus.NOT_FOUND),
       );
@@ -73,7 +73,7 @@ describe('SpeciesController', () => {
         );
 
       await expect(
-        speciesController.getPokemon('existingpokemon'),
+        speciesController.getPokemon({ name: 'existingpokemon' }),
       ).rejects.toThrow(
         new HttpException(
           'Internal server error.',
@@ -85,9 +85,9 @@ describe('SpeciesController', () => {
 
   describe('getTranslatedPokemon', () => {
     it('should return Pokémon information with translated description', async () => {
-      const result = await speciesController.getTranslatedPokemon(
-        PokemonTranslatedResponseDtoMock.name,
-      );
+      const result = await speciesController.getTranslatedPokemon({
+        name: PokemonTranslatedResponseDtoMock.name,
+      });
 
       expect(result).toEqual(PokemonTranslatedResponseDtoMock);
       expect(speciesService.findOneWithTranslation).toHaveBeenCalledTimes(1);
@@ -101,7 +101,7 @@ describe('SpeciesController', () => {
         );
 
       await expect(
-        speciesController.getTranslatedPokemon('unknownpokemon'),
+        speciesController.getTranslatedPokemon({ name: 'unknownpokemon' }),
       ).rejects.toThrow(
         new HttpException('Pokémon not found.', HttpStatus.NOT_FOUND),
       );
@@ -118,7 +118,7 @@ describe('SpeciesController', () => {
         );
 
       await expect(
-        speciesController.getTranslatedPokemon('existingpokemon'),
+        speciesController.getTranslatedPokemon({ name: 'existingpokemon' }),
       ).rejects.toThrow(
         new HttpException(
           'Internal server error.',
